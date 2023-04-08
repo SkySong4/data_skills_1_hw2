@@ -2,8 +2,8 @@
 # Spring 2023
 # Homework 2
 
-# YOUR CANVAS NAME HERE
-# YOUR GITHUB USER NAME HERE
+# Tianhua Song
+# SkySong4
 
 # Due date: Sunday April 9th before midnight
 # Write your answers in the space between the questions, and commit/push only 
@@ -22,7 +22,22 @@
 
 start_list = [(10, 0), (100, 4), (0, 0), (-15, -100), (5, 4)]
 
+def sum_and_classify(a, b):
+    sum_value = a + b
+    if sum_value > 10:
+        return "big"
+    elif sum_value == 10:
+        return "just right"
+    else:
+        return "small"
 
+start_list = [(10, 0), (100, 4), (0, 0), (-15, -100), (5, 4)]
+
+result_list = [sum_and_classify(a, b) for a, b in start_list]
+
+print(result_list)
+
+#result_list=['just right', 'big', 'small', 'small', 'small']
 
 # Question 2: The following code is fully-functional, but uses a global
 # variable and a local variable.  Re-write it to work the same, but using an
@@ -35,6 +50,15 @@ def my_func():
     return a + b
 x = my_func()
 
+#using argument instead of global variable
+
+def my_func(a):  # accept an argument 'a' instead of using a global variable
+    b = 30
+    return a + b
+
+x = my_func(10)  # Pass the value of 'a' as an argument when calling the function
+#The function can now work with any value of 'a' passed to it, rather than relying on a specific global variable.
+#it is easier to see the dependencies of a function, which helps reduce the risk of unintended side effects when changing the code in the future.
 
 # Question 3: Write a function that can generate a random password from
 # upper-case and lower-case letters, numbers, and special characters 
@@ -48,6 +72,29 @@ x = my_func()
 #import random
 #from numpy import random
   
+import random
+import string
+
+def generate_password(length, special_chars=True, numbers=True):
+    if length < 8 or length > 16:
+        print("Make sure your password length between 8 and 16 characters.")
+        return
+
+    chars = string.ascii_letters  # Upper-case and lower-case letters
+    if special_chars:
+        chars += "!@#$%^&*"
+    if numbers:
+        chars += string.digits
+
+    password = "".join(random.choices(chars, k=length))
+    return password
+
+# Usage examples:
+password1 = generate_password(9)  # Default settings
+print(password1)
+
+password2 = generate_password(9, special_chars=False, numbers=False)  # No special characters or numbers
+print(password2)
   
   
 # Question 4: Create a class that requires four arguments when an instance
@@ -71,3 +118,25 @@ x = my_func()
 # A function named "all_data", which takes a container holding any number of these 
 # instances and returns a simple list of all of their data 
 # (e.g. [name, vaccine, doses, covid], [...])
+
+class Person:
+    def __init__(self, name, vaccine, doses, had_covid):
+        self.name = name
+        self.vaccine = vaccine
+        self.doses = doses
+        self.had_covid = had_covid
+
+    def get_record(self):
+        print(f"{self.name} has {self.doses} doses of {self.vaccine} and {'has' if self.had_covid else 'has not'} had COVID.")
+
+    def same_shot(self, other_person):
+        if self.vaccine == other_person.vaccine:
+            print(f"{self.name} and {other_person.name} have the same kind of vaccine ({self.vaccine}).")
+        else:
+            print(f"{self.name} and {other_person.name} have different vaccines ({self.vaccine} and {other_person.vaccine}).")
+
+def all_data(person_list):
+    return [[person.name, person.vaccine, person.doses, person.had_covid] for person in person_list]
+
+
+
